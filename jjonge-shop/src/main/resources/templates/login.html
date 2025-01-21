@@ -53,12 +53,22 @@
 
     /* Apple 버튼 */
     .apple-btn {
-      background-color: black; /* Apple 검은색 */
+      background-color: #888; /* Apple 검은색 */
       color: white; /* 아이콘 흰색 */
     }
 
     .apple-btn:hover {
-      background-color: #333; /* 호버 시 더 짙은 검은색 */
+      background-color: #555; /* 호버 시 더 짙은 검은색 */
+    }
+
+        /* Kakao 버튼 */
+    .kakao-btn {
+      background-color: yellow; /* Kakao 노란색 */
+      color: white; /* 아이콘 흰색 */
+    }
+
+    .kakao-btn:hover {
+      background-color: #FFD700; /* 호버 시 더 짙은 검은색 */
     }
   </style>
 </head>
@@ -159,6 +169,12 @@
                     <!-- Apple 로그인 버튼 -->
                     <a href="/oauth2/authorization/apple" class="btn social-login-btn apple-btn">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-apple" viewBox="0 0 16 16">
+                        <path d="..." />
+                      </svg>
+                    </a>
+                    <!-- Kakao 로그인 버튼 -->
+                    <a href="/oauth2/authorization/kakao" class="btn social-login-btn kakao-btn">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-kakao" viewBox="0 0 16 16">
                         <path d="..." />
                       </svg>
                     </a>
