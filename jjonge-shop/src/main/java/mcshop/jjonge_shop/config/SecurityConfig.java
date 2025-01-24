@@ -1,5 +1,6 @@
 package mcshop.jjonge_shop.config;
 
+import mcshop.jjonge_shop.service.CustomOAuth2UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -9,6 +10,12 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    private final CustomOAuth2UserService customOAuth2UserService;
+
+    public SecurityConfig(CustomOAuth2UserService customOAuth2UserService) {
+        this.customOAuth2UserService = customOAuth2UserService;
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -26,7 +33,8 @@ public class SecurityConfig {
 
         http
                 .oauth2Login((oauth2) -> oauth2
-                        .loginPage("/login"));  // OAuth2 로그인도 동일한 페이지 사용
+                        .userInfoEndpoint((userInfoEndpointConfig) ->
+                                userInfoEndpointConfig.userService(customOAuth2UserService)));
 
         http
                 .authorizeHttpRequests((auth) -> auth
