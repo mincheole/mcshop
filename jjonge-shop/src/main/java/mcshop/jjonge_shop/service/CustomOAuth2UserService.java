@@ -23,87 +23,57 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         this.memberRepository = memberRepository;
     }
 
-//    @Override
-//    public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-//        // OAuth2 사용자 정보 로드 (부모 클래스 메서드 호출)
-//        OAuth2User oAuth2User = super.loadUser(userRequest);
-//
-//        // 디버깅용 사용자 속성 출력
-//        System.out.println(oAuth2User.getAttributes());
-//
-//        // 로그인에 사용된 OAuth2 제공자 식별
-//        String registrationId = userRequest.getClientRegistration().getRegistrationId();
-//        OAuth2Response oAuth2Response = null;
-//
-//        // 제공자별 Response 객체 생성
-//        if (registrationId.equals("naver")) {
-//            oAuth2Response = new NaverResponse(oAuth2User.getAttributes());
-//        } else if (registrationId.equals("google")) {
-//            oAuth2Response = new GoogleReponse(oAuth2User.getAttributes());
-//        } else {
-//            // 지원하지 않는 제공자의 경우 null 반환
-//            return null;
-//        }
-//
-//        // 사용자 이름 생성 (제공자 + 고유 ID)
-//        String username = oAuth2Response.getProvider() + " " + oAuth2Response.getProviderId();
-//
-//        // 기본 사용자 역할 설정
-//        String role = "ROLE_USER";
-//
-//        // 기존 사용자 조회, 없으면 새 Member 객체 생성
-//        Member member = memberRepository.findByUsername(username)
-//                .orElse(new Member());
-//
-//        // 사용자 정보 업데이트
-//        member.setUsername(username);
-//        member.setEmail(oAuth2Response.getEmail());
-//        member.setRole(role);
-//        member.setUsername(oAuth2Response.getName());  // 사용자 이름 추가
-//
-//        // 사용자 정보 저장
-//        memberRepository.save(member);
-//
-//        // CustomOAuth2User 객체 생성 및 반환
-//        return new CustomOAuth2User(oAuth2Response, role);
-//    }
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+        // 부모 클래스의 loadUser 메서드를 호출하여 OAuth2User 정보를 가져옴
         OAuth2User oAuth2User = super.loadUser(userRequest);
 
-        // 전체 속성 상세 출력
+        // 전체 속성 출력 (디버깅용)
         System.out.println("전체 속성: " + oAuth2User.getAttributes());
 
+        // OAuth2 제공자 이름 가져오기 (Google, Naver 등)
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
         OAuth2Response oAuth2Response = null;
 
+        // 제공자가 Naver인 경우
         if (registrationId.equals("naver")) {
+            // NaverResponse 객체 생성
             oAuth2Response = new NaverResponse(oAuth2User.getAttributes());
 
-            // 각 속성 개별 출력
-            System.out.println("Provider: " + oAuth2Response.getProvider());
-            System.out.println("ProviderId: " + oAuth2Response.getProviderId());
-            System.out.println("Email: " + oAuth2Response.getEmail());
-            System.out.println("Name: " + oAuth2Response.getName());
+            // 각 속성 값 출력 (디버깅용)
+            System.out.println("Provider: " + oAuth2Response.getProvider());       // 제공자 이름
+            System.out.println("ProviderId: " + oAuth2Response.getProviderId()); // 제공자 고유 ID
+            System.out.println("Email: " + oAuth2Response.getEmail());           // 이메일
+            System.out.println("Name: " + oAuth2Response.getName());             // 사용자 이름
+
+            // 제공자가 Google인 경우
         } else if (registrationId.equals("google")) {
+            // GoogleResponse 객체 생성
             oAuth2Response = new GoogleReponse(oAuth2User.getAttributes());
+
+            // 지원하지 않는 제공자인 경우 null 반환
         } else {
             return null;
         }
 
+        // 사용자 이름을 제공자와 고유 ID를 조합하여 생성
         String username = oAuth2Response.getProvider() + " " + oAuth2Response.getProviderId();
-        String role = "ROLE_USER";
+        String role = "ROLE_USER"; // 기본 사용자 역할 지정
 
+        // 데이터베이스에서 사용자 정보 검색, 없으면 새 사용자 생성
         Member member = memberRepository.findByUsername(username)
                 .orElse(new Member());
 
-        member.setUsername(username);
-        member.setEmail(oAuth2Response.getEmail());
-        member.setRole(role);
-        member.setUsername(oAuth2Response.getName());
+        // 사용자 정보 업데이트
+        member.setUsername(username);                  // 사용자 이름 설정
+        member.setEmail(oAuth2Response.getEmail());    // 이메일 설정
+        member.setRole(role);                          // 역할 설정
+        member.setUsername(oAuth2Response.getName());  // 사용자 이름 설정 (실제 이름으로)
 
+        // 사용자 정보 데이터베이스에 저장
         memberRepository.save(member);
 
+        // 인증된 사용자 정보와 역할을 CustomOAuth2User 객체로 반환
         return new CustomOAuth2User(oAuth2Response, role);
     }
 }

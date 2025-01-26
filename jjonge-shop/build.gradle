@@ -49,4 +49,5 @@ tasks.named('test') {
 
 tasks.withType(JavaExec) {
 	systemProperty 'file.encoding', 'UTF-8'
+	jvmArgs '-Dfile.encoding=UTF-8'
 }
