@@ -3,12 +3,13 @@ package mcshop.jjonge_shop.dto;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-public class NaverResponse implements OAuth2Response{
-
+public class NaverResponse implements OAuth2Response {
     private final Map<String, Object> attribute;
+    private final Map<String, Object> response;
 
     public NaverResponse(Map<String, Object> attribute) {
-        this.attribute = (Map<String, Object>) attribute.get("response");
+        this.attribute = attribute;
+        this.response = (Map<String, Object>) attribute.get("response");
     }
 
     @Override
@@ -18,16 +19,19 @@ public class NaverResponse implements OAuth2Response{
 
     @Override
     public String getProviderId() {
-        return attribute.get("id").toString();
+        // null 체크 추가
+        return response != null ? response.get("id").toString() : null;
     }
 
     @Override
     public String getEmail() {
-        return attribute.get("email").toString();
+        // null 체크 추가
+        return response != null ? response.get("email").toString() : null;
     }
 
     @Override
     public String getName() {
-        return attribute.get("name").toString();
+        // null 체크 추가
+        return response != null ? response.get("name").toString() : null;
     }
 }
