@@ -7,6 +7,8 @@ import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Setter
@@ -20,6 +22,8 @@ public class Member {
     private String email;
 
     private String role;
+
+    private LocalDateTime lastLoginTime; // 로그인한 마지막 시각 추가
 
     public String getUsername() {
         return username;

@@ -11,6 +11,8 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     // DefaultOAuth2UserService의 확장 클래스로, OAuth2 사용자 로딩 로직 커스터마이징
@@ -69,6 +71,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         member.setEmail(oAuth2Response.getEmail());    // 이메일 설정
         member.setRole(role);                          // 역할 설정
         member.setUsername(oAuth2Response.getName());  // 사용자 이름 설정 (실제 이름으로)
+        member.setLastLoginTime(LocalDateTime.now()); // 현재 시각 저장
 
         // 사용자 정보 데이터베이스에 저장
         memberRepository.save(member);
