@@ -44,3 +44,7 @@ dependencies { // DB 연결을 하지 않으면 오류 발생하므로 주석처
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+tasks.withType(JavaExec) {
+	systemProperty 'file.encoding', 'UTF-8'
+}

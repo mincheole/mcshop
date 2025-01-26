@@ -1,5 +1,6 @@
 package mcshop.jjonge_shop.dto;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 public class NaverResponse implements OAuth2Response{
