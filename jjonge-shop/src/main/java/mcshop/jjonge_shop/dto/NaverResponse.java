@@ -31,7 +31,7 @@ public class NaverResponse implements OAuth2Response {
 
     @Override
     public String getName() {
-        // null 체크 추가
-        return response != null ? response.get("name").toString() : null;
+        // Naver API 응답에서 'name'을 가져오기
+        return response != null ? (String) response.get("name") : null;
     }
 }
