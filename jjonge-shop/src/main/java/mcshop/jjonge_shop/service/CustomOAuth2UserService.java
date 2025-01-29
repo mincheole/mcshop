@@ -5,6 +5,7 @@ import mcshop.jjonge_shop.dto.GoogleReponse;
 import mcshop.jjonge_shop.dto.NaverResponse;
 import mcshop.jjonge_shop.dto.OAuth2Response;
 import mcshop.jjonge_shop.repository.MemberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -19,6 +20,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     // memberRepository를 주입받기 위한 생성자
     private final MemberRepository memberRepository;
+
+    @Autowired
+//    private OAuth2AuthorizedClientRepository authorizedClientRepository;
+
 
     public CustomOAuth2UserService(MemberRepository memberRepository) {
         // 생성자에서 memberRepository를 초기화
@@ -80,3 +85,66 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         return new CustomOAuth2User(oAuth2Response, role);
     }
 }
+//    @Override
+//    public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+//        // 부모 클래스의 loadUser 메서드를 호출하여 OAuth2User 정보를 가져옴
+//        OAuth2User oAuth2User = super.loadUser(userRequest);
+//
+//        // 전체 속성 출력 (디버깅용)
+//        System.out.println("전체 속성: " + oAuth2User.getAttributes());
+//
+//        // OAuth2 제공자 이름 가져오기 (Google, Naver 등)
+//        String registrationId = userRequest.getClientRegistration().getRegistrationId();
+//        OAuth2Response oAuth2Response = null;
+//
+//        // 제공자가 Naver인 경우
+//        if (registrationId.equals("naver")) {
+//            // NaverResponse 객체 생성
+//            oAuth2Response = new NaverResponse(oAuth2User.getAttributes());
+//
+//            // 각 속성 값 출력 (디버깅용)
+//            System.out.println("Provider: " + oAuth2Response.getProvider());       // 제공자 이름
+//            System.out.println("ProviderId: " + oAuth2Response.getProviderId()); // 제공자 고유 ID
+//            System.out.println("Email: " + oAuth2Response.getEmail());           // 이메일
+//            System.out.println("Name: " + oAuth2Response.getName());             // 사용자 이름
+//
+//            // 제공자가 Google인 경우
+//        } else if (registrationId.equals("google")) {
+//            // GoogleResponse 객체 생성
+//            oAuth2Response = new GoogleReponse(oAuth2User.getAttributes());
+//
+//            // 지원하지 않는 제공자인 경우 null 반환
+//        } else {
+//            return null;
+//        }
+//
+//        // OAuth2AuthorizedClient 엔티티에 저장할 데이터 생성
+//        String clientRegistrationId = registrationId; // 클라이언트 등록 ID
+//        String principalName = oAuth2Response.getProvider() + "_" + oAuth2Response.getProviderId(); // 고유 사용자 식별자
+//        String accessTokenType = userRequest.getAccessToken().getTokenType().getValue(); // 액세스 토큰 유형
+//        byte[] accessTokenValue = userRequest.getAccessToken().getTokenValue().getBytes(); // 액세스 토큰 값
+////        LocalDateTime accessTokenIssuedAt = userRequest.getAccessToken().getIssuedAt(); // 액세스 토큰 발급 시간
+////        LocalDateTime accessTokenExpiresAt = userRequest.getAccessToken().getExpiresAt(); // 액세스 토큰 만료 시간
+//        String accessTokenScope = String.join(",", userRequest.getAccessToken().getScopes()); // 액세스 토큰 범위
+//
+//        // 데이터베이스에서 기존 클라이언트 정보 검색
+//        OAuth2AuthorizedClient authorizedClient = authorizedClientRepository.findById(new OAuth2AuthorizedClientId(clientRegistrationId, principalName))
+//                .orElse(new OAuth2AuthorizedClient());
+//
+//        // 클라이언트 정보 업데이트
+//        authorizedClient.setClientRegistrationId(clientRegistrationId);
+//        authorizedClient.setPrincipalName(principalName);
+//        authorizedClient.setAccessTokenType(accessTokenType);
+//        authorizedClient.setAccessTokenValue(accessTokenValue);
+////        authorizedClient.setAccessTokenIssuedAt(accessTokenIssuedAt);
+////        authorizedClient.setAccessTokenExpiresAt(accessTokenExpiresAt);
+//        authorizedClient.setAccessTokenScope(accessTokenScope);
+//        authorizedClient.setCreatedAt(LocalDateTime.now()); // 생성 시간 갱신
+//
+//        // 데이터베이스에 저장
+//        authorizedClientRepository.save(authorizedClient);
+//
+//        // 인증된 사용자 정보와 역할을 CustomOAuth2User 객체로 반환
+//        return new CustomOAuth2User(oAuth2Response, "ROLE_USER");
+//    }
+//}
