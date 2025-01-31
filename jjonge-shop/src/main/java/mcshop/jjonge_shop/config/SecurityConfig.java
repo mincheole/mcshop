@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -26,6 +28,11 @@ public class SecurityConfig {
         this.customClientRegistrationRepo = customClientRegistrationRepo;
         this.customOAuth2AuthorizedClientService = customOAuth2AuthorizedClientService;
         this.jdbcTemplate = jdbcTemplate;
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(); // BCrypt 방식으로 암호화
     }
 
     @Bean

@@ -1,69 +1,3 @@
-<!--<!DOCTYPE html>-->
-<!--<html xmlns:th="http://www.thymeleaf.org">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
-<!--    <title>회원가입</title>-->
-<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">-->
-<!--    <style>-->
-<!--        .fieldError {-->
-<!--            border-color: #bd2130;-->
-<!--        }-->
-<!--    </style>-->
-<!--</head>-->
-<!--<body>-->
-<!--<div class="container mt-5">-->
-
-<!--    &lt;!&ndash; 회원가입 카드 &ndash;&gt;-->
-<!--    <div class="card border-0 shadow rounded-4">-->
-<!--        <div class="card-header text-center bg-primary text-white rounded-top-4">-->
-<!--            <h3>회원가입</h3>-->
-<!--        </div>-->
-<!--        <div class="card-body">-->
-<!--            &lt;!&ndash; 회원가입 폼 &ndash;&gt;-->
-<!--            <form th:action="@{/members/new}" th:object="${memberForm}" method="post">-->
-<!--                &lt;!&ndash; 이름 &ndash;&gt;-->
-<!--                <div class="mb-3">-->
-<!--                    <label for="name" class="form-label">이름</label>-->
-<!--                    <input type="text" th:field="*{name}" id="name" class="form-control"-->
-<!--                           placeholder="이름을 입력하세요"-->
-<!--                           th:classappend="${#fields.hasErrors('name')} ? 'fieldError' : ''" required>-->
-<!--                    <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger small">이름 오류</p>-->
-<!--                </div>-->
-
-<!--                &lt;!&ndash; 도시 &ndash;&gt;-->
-<!--                <div class="mb-3">-->
-<!--                    <label for="city" class="form-label">도시</label>-->
-<!--                    <input type="text" th:field="*{city}" id="city" class="form-control"-->
-<!--                           placeholder="도시를 입력하세요" required>-->
-<!--                </div>-->
-
-<!--                &lt;!&ndash; 거리 &ndash;&gt;-->
-<!--                <div class="mb-3">-->
-<!--                    <label for="street" class="form-label">거리</label>-->
-<!--                    <input type="text" th:field="*{street}" id="street" class="form-control"-->
-<!--                           placeholder="거리를 입력하세요" required>-->
-<!--                </div>-->
-
-<!--                &lt;!&ndash; 우편번호 &ndash;&gt;-->
-<!--                <div class="mb-3">-->
-<!--                    <label for="zipcode" class="form-label">우편번호</label>-->
-<!--                    <input type="text" th:field="*{zipcode}" id="zipcode" class="form-control"-->
-<!--                           placeholder="우편번호를 입력하세요" required>-->
-<!--                </div>-->
-
-<!--                &lt;!&ndash; 회원가입 버튼 &ndash;&gt;-->
-<!--                <div class="d-grid">-->
-<!--                    <button type="submit" class="btn btn-primary">회원가입</button>-->
-<!--                </div>-->
-<!--            </form>-->
-<!--        </div>-->
-<!--    </div>-->
-
-<!--</div>-->
-<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>-->
-<!--</body>-->
-<!--</html>-->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -87,35 +21,43 @@
         </div>
         <div class="card-body">
             <!-- 회원가입 폼 -->
-            <form th:action="@{/members/new}" th:object="${memberForm}" method="post">
-                <!-- 이름 -->
+            <form th:action="@{/signup}" th:object="${memberForm}" method="post">
+
+
+                <!-- 아이디 -->
                 <div class="mb-3">
-                    <label for="name" class="form-label">이름</label>
-                    <input type="text" th:field="*{name}" id="name" class="form-control"
-                           placeholder="이름을 입력하세요"
-                           th:classappend="${#fields.hasErrors('name')} ? 'fieldError' : ''" required>
-                    <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger small">이름 오류</p>
+                    <label for="username" class="form-label">아이디</label>
+                    <input type="text" th:field="*{username}" id="username" class="form-control"
+                           placeholder="아이디를 입력하세요"
+                           th:classappend="${#fields.hasErrors('username')} ? 'fieldError' : ''" required>
+                    <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="text-danger small">아이디 오류</p>
                 </div>
 
-                <!-- 도시 -->
+                <!-- 이메일 -->
                 <div class="mb-3">
-                    <label for="city" class="form-label">도시</label>
-                    <input type="text" th:field="*{city}" id="city" class="form-control"
-                           placeholder="도시를 입력하세요" required>
+                    <label for="email" class="form-label">이메일</label>
+                    <input type="email" th:field="*{email}" id="email" class="form-control"
+                           placeholder="이메일을 입력하세요"
+                           th:classappend="${#fields.hasErrors('email')} ? 'fieldError' : ''" required>
+                    <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger small">이메일 오류</p>
                 </div>
 
-                <!-- 거리 -->
+                <!-- 비밀번호 -->
                 <div class="mb-3">
-                    <label for="street" class="form-label">거리</label>
-                    <input type="text" th:field="*{street}" id="street" class="form-control"
-                           placeholder="거리를 입력하세요" required>
+                    <label for="password" class="form-label">비밀번호</label>
+                    <input type="password" th:field="*{password}" id="password" class="form-control"
+                           placeholder="비밀번호를 입력하세요"
+                           th:classappend="${#fields.hasErrors('password')} ? 'fieldError' : ''" required>
+                    <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-danger small">비밀번호 오류</p>
                 </div>
 
-                <!-- 우편번호 -->
+                <!-- 실명 -->
                 <div class="mb-3">
-                    <label for="zipcode" class="form-label">우편번호</label>
-                    <input type="text" th:field="*{zipcode}" id="zipcode" class="form-control"
-                           placeholder="우편번호를 입력하세요" required>
+                    <label for="realName" class="form-label">실명</label>
+                    <input type="text" th:field="*{realName}" id="realName" class="form-control"
+                           placeholder="실명을 입력하세요"
+                           th:classappend="${#fields.hasErrors('realName')} ? 'fieldError' : ''" required>
+                    <p th:if="${#fields.hasErrors('realName')}" th:errors="*{realName}" class="text-danger small">실명 오류</p>
                 </div>
 
                 <!-- 회원가입 버튼 -->
@@ -130,3 +72,4 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+

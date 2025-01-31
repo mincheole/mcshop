@@ -1,13 +1,12 @@
 package mcshop.jjonge_shop.dto;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-public class GoogleReponse implements OAuth2Response {
+public class GoogleResponse implements OAuth2Response {
 
     private final Map<String, Object> attribute;
 
-    public GoogleReponse(Map<String, Object> attribute) {
+    public GoogleResponse(Map<String, Object> attribute) {
         this.attribute = attribute;
     }
 
