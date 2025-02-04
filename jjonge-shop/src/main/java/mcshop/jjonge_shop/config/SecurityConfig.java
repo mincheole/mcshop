@@ -67,7 +67,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((auth) -> auth
                         // 특정 URL은 인증 없이 접근 가능하도록 허용
-                        .requestMatchers("/", "/oauth2/**", "/login/**", "/createMemberForm").permitAll()
+                        .requestMatchers("/", "/oauth2/**", "/login/**").permitAll()
                         // 그 외 모든 요청은 인증 필요
                         .anyRequest().authenticated());
 
