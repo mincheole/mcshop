@@ -1,13 +1,108 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title th:text="'Document'">Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>안녕하세요</title>
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* 전체 배경색: 기본 흰색 */
+        body {
+          background-color: #fff;
+        }
+        /* 헤더 스타일 */
+        header {
+          background-color: #fff;
+          padding: 10px 0;
+          border-bottom: 1px solid #ddd;
+        }
+        header h2 {
+          margin: 0;
+        }
+        /* 메인 섹션(히어로 섹션) 스타일 */
+        .hero-section {
+          background-color: #0d6efd; /* 로그인 페이지와 동일한 파란색(bg-primary) */
+          color: white;
+          padding: 60px 0;
+        }
+        .hero-section h1 {
+          font-size: 3rem;
+          font-weight: bold;
+          margin-bottom: 30px;
+        }
+        .hero-section p.lead {
+          font-size: 1.25rem;
+          margin-bottom: 20px;
+        }
+        .hero-section .btn {
+          margin: 5px;
+          border-radius: 0.5rem;
+          padding: 10px 20px;
+          font-size: 1.1rem;
+          transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .hero-section .btn:hover {
+          transform: translateY(-2px);
+          opacity: 0.9;
+        }
+        /* 푸터 스타일 */
+        footer {
+          background-color: #fff;
+          padding: 20px 0;
+          border-top: 1px solid #ddd;
+          text-align: center;
+          color: #555;
+        }
+    </style>
 </head>
 <body>
-<p th:text="'main page'">main page</p>
+<!-- 헤더 시작 -->
+<header>
+    <div class="container">
+        <h2 class="text-center">JJonge Shop</h2>
+    </div>
+</header>
+<!-- 헤더 끝 -->
+
+<!-- 메인 컨텐츠(히어로 섹션) 시작 -->
+<section class="hero-section text-center">
+    <div class="container">
+        <h1>JJonge Shop</h1>
+
+        <!-- 회원 기능 버튼 섹션 -->
+        <div class="my-4">
+            <p class="lead">회원 기능</p>
+            <a class="btn btn-light btn-lg" href="/members/new">회원 가입</a>
+            <a class="btn btn-light btn-lg" href="/members">회원 목록</a>
+        </div>
+
+        <!-- 상품 기능 버튼 섹션 -->
+        <div class="my-4">
+            <p class="lead">상품 기능</p>
+            <a class="btn btn-light btn-lg" href="/items/new">상품 등록</a>
+            <a class="btn btn-light btn-lg" href="/items">상품 목록</a>
+        </div>
+
+        <!-- 주문 기능 버튼 섹션 -->
+        <div class="my-4">
+            <p class="lead">주문 기능</p>
+            <a class="btn btn-light btn-lg" href="/order">상품 주문</a>
+            <a class="btn btn-light btn-lg" href="/orders">주문 내역</a>
+        </div>
+    </div>
+</section>
+<!-- 메인 컨텐츠(히어로 섹션) 끝 -->
+
+<!-- 푸터 시작 -->
+<footer>
+    <div class="container">
+        <p>&copy; 2025 JJonge Shop. All rights reserved.</p>
+    </div>
+</footer>
+<!-- 푸터 끝 -->
+
+<!-- Bootstrap JS Bundle (옵션) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
