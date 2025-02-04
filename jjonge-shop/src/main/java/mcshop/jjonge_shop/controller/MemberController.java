@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mcshop.jjonge_shop.domain.Member;
 import mcshop.jjonge_shop.domain.MemberForm;
+import mcshop.jjonge_shop.dto.MemberDto;
 import mcshop.jjonge_shop.service.MemberService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +24,7 @@ public class MemberController {
     @GetMapping("/members")
     public String list(Model model) {
         // MemberService의 findMembers() 메서드를 호출하여 회원 리스트를 가져옴
-        List<Member> members = memberService.findMembers();
+        List<MemberDto> members = memberService.getfindMembers();
         // 모델에 회원 리스트 추가
         model.addAttribute("members", members);
         return "members/memberList";  // 회원 목록 뷰 이름

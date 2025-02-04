@@ -51,11 +51,4 @@ public class Member {
         this.realName = realName;
         this.lastLoginTime = LocalDateTime.now();
     }
-
-    // lastLoginTime을 'hh.mm.ss' 형식으로 반환하는 메서드
-    public String getFormattedLastLoginTime() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH.mm.ss");
-        return lastLoginTime.format(formatter);
-    }
-
 }
