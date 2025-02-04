@@ -40,6 +40,6 @@ public class SignupController {
         // 사용자 정보 저장
         memberRepository.save(newMember);
 
-        return "redirect:/login"; // 회원가입 후 로그인 페이지로 리다이렉트
+        return "redirect:/"; // 회원가입 후 로그인 페이지로 리다이렉트
     }
 }
