@@ -57,4 +57,5 @@ public class Member {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH.mm.ss");
         return lastLoginTime.format(formatter);
     }
+
 }

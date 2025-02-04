@@ -7,12 +7,18 @@ import mcshop.jjonge_shop.repository.MemberRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class MemberService {
+
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
+    /**
+     * 회원가입
+     */
     public void registerMember(MemberForm memberForm) {
         Member member = new Member();
         member.setUsername(memberForm.getUsername());  // 사용자 ID
@@ -23,4 +29,15 @@ public class MemberService {
 
         memberRepository.save(member);
     }
+
+    /**
+     * 전체 회원 조회
+     */
+    public List<Member> findMembers() {
+        return memberRepository.findAll();
+    }
+
+//    public Member findOne(Long memberId) {
+//        return memberRepository.findOne(memberId);
+//    }
 }
