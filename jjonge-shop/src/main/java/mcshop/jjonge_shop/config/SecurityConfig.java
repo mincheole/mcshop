@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 @Configuration
 @EnableWebSecurity
@@ -19,15 +20,11 @@ public class SecurityConfig {
     // CustomOAuth2UserService를 주입받는 생성자
     private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomClientRegistrationRepo customClientRegistrationRepo;
-    private final CustomOAuth2AuthorizedClientService customOAuth2AuthorizedClientService;
-    private final JdbcTemplate jdbcTemplate;
 
     public SecurityConfig(CustomOAuth2UserService customOAuth2UserService, CustomClientRegistrationRepo customClientRegistrationRepo,
                           CustomOAuth2AuthorizedClientService customOAuth2AuthorizedClientService, JdbcTemplate jdbcTemplate) {
         this.customOAuth2UserService = customOAuth2UserService;
         this.customClientRegistrationRepo = customClientRegistrationRepo;
-        this.customOAuth2AuthorizedClientService = customOAuth2AuthorizedClientService;
-        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Bean
@@ -58,8 +55,6 @@ public class SecurityConfig {
                         // 사용자 정보 요청 시 커스터마이즈된 서비스 사용
                         .loginPage("/login")
                         .clientRegistrationRepository(customClientRegistrationRepo.clientRegistrationRepository())
-//                        .authorizedClientService(customOAuth2AuthorizedClientService.oAuth2AuthorizedClientService(
-//                                                    jdbcTemplate, customClientRegistrationRepo.clientRegistrationRepository()))
                         .userInfoEndpoint((userInfoEndpointConfig) ->
                                 userInfoEndpointConfig.userService(customOAuth2UserService)));
 
