@@ -62,12 +62,18 @@ public class SecurityConfig {
         // URL별 인증 및 접근 권한 설정
         http
                 .authorizeHttpRequests((auth) -> auth
-                        // 특정 URL은 인증 없이 접근 가능하도록 허용
-                        .requestMatchers("/", "/oauth2/**", "/login/**", "/members/**").permitAll()
+                        // 웰컴 페이지와 로그인 페이지는 인증 없이 접근 가능하도록 허용
+                        .requestMatchers("/", "/oauth2/**", "/members/login", "/members/new").permitAll()
                         // 그 외 모든 요청은 인증 필요
                         .anyRequest().authenticated());
 
+        // 인증되지 않은 사용자가 접근하려는 페이지가 있을 경우 로그인 페이지로 리다이렉트
+        http.exceptionHandling((exception) -> exception
+                .authenticationEntryPoint((request, response, authException) -> {
+                    response.sendRedirect("/members/login"); // 로그인 페이지로 리다이렉트 (에러 파라미터 추가)
+                }));
         // SecurityFilterChain 객체를 빌드하여 반환
+
         return http.build();
     }
 }
