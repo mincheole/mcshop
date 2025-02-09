@@ -51,12 +51,13 @@ public class SecurityConfig {
 
         // OAuth2 로그인 설정
         http
-                .oauth2Login((oauth2) -> oauth2
+                .oauth2Login((oauth2) -> oauth2  //리다이렉션
                         // 사용자 정보 요청 시 커스터마이즈된 서비스 사용
-                        .loginPage("/login")
+                        .loginPage("/login")            // 로그인 페이지 경로 설정
                         .clientRegistrationRepository(customClientRegistrationRepo.clientRegistrationRepository())
                         .userInfoEndpoint((userInfoEndpointConfig) ->
-                                userInfoEndpointConfig.userService(customOAuth2UserService)));
+                                userInfoEndpointConfig.userService(customOAuth2UserService)
+                        ));
 
         // URL별 인증 및 접근 권한 설정
         http

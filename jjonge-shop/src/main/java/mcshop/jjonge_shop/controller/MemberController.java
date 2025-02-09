@@ -32,6 +32,11 @@ public class MemberController {
         return "/members/createMemberForm"; // 회원가입 페이지(createMemberForm.html)를 반환
     }
 
+    @GetMapping("/members/login")
+    public String loginPage() {
+        return "/members/login"; // `login.html` 템플릿 반환
+    }
+
     // POST 요청으로 회원가입 처리하는 메서드
     @PostMapping("/signup")
     public String register(@ModelAttribute MemberForm memberForm) {
