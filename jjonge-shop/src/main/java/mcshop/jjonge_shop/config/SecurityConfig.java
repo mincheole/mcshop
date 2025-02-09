@@ -72,8 +72,15 @@ public class SecurityConfig {
                 .authenticationEntryPoint((request, response, authException) -> {
                     response.sendRedirect("/members/login"); // 로그인 페이지로 리다이렉트 (에러 파라미터 추가)
                 }));
-        // SecurityFilterChain 객체를 빌드하여 반환
 
+        // 로그아웃 설정
+        http.logout((logout) -> logout
+                .logoutUrl("/logout")              // 로그아웃 URL 설정
+                .logoutSuccessUrl("/")             // 로그아웃 성공 후 리디렉션할 페이지 (홈 화면 등)
+                .invalidateHttpSession(true)       // 세션 무효화
+                .clearAuthentication(true));       // 인증 정보 제거
+
+        // SecurityFilterChain 객체를 빌드하여 반환
         return http.build();
     }
 }

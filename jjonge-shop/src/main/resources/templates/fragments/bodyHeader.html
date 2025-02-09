@@ -1,9 +1,47 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <style>
+        .header {
+            display: flex;
+            justify-content: space-between; /* 좌측, 우측 정렬 */
+            align-items: center; /* 세로 가운데 정렬 */
+            padding: 10px 20px;
+        }
+
+        .nav {
+            display: flex; /* 목록 항목들을 가로로 정렬 */
+            margin: 0;
+            list-style: none; /* 기본 목록 스타일 제거 */
+        }
+
+        .nav li {
+            margin-left: 20px; /* 항목 간격 추가 */
+        }
+
+        /* 추가 스타일: 버튼의 기본 스타일을 제거하고 링크처럼 보이도록 설정 */
+        .btn-link {
+            background: none;
+            border: none;
+            color: inherit;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
 <div class="header" th:fragment="bodyheader">
-    <ul class="nav nav-pills pull-right">
-<!--        <li><a href="/">Home</a></li>-->
-    </ul>
+    <!-- JJONGE SHOP 로고 (좌측 상단) -->
     <a href="/"><h3 class="text-muted">JJONGE SHOP</h3></a>
-    </div>
+
+    <!-- 로그아웃 폼 (우측 상단) -->
+    <ul class="nav">
+<!--        3. @PreAuthorize 또는 @Secured를 사용한 권한 설정-->
+<!--        만약 로그아웃 버튼이 인증된 사용자에게만 보여져야 한다면, @PreAuthorize나 @Secured 어노테이션을 통해 액세스를 제한할 수 있습니다. 예를 들어, 로그아웃 버튼이 로그인된 사용자에게만 보이도록 하려면:-->
+        <li sec:authorize="isAuthenticated()">
+            <!-- 로그아웃 버튼을 누르면 /logout.html로 이동 -->
+            <a href="/logout.html" class="btn btn-link">Logout</a>
+        </li>
+    </ul>
+</div>
+</body>
 </html>
