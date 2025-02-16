@@ -29,7 +29,7 @@ public class InitDb {
 
         @Transactional
         public void dbInit1() {
-            Member member1 = createMember("ADMIN", "", "", "ROLE_ADMIN", "ADMIN");
+            Member member1 = createMember("ADMIN", "admin@example.com", "adminPassword", "ROLE_ADMIN", "ADMIN");
             em.persist(member1);
         }
 
