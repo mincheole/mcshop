@@ -29,10 +29,8 @@ public class InitDb {
 
         @Transactional
         public void dbInit1() {
-            Member member1 = createMember("userA", "userA@example.com", "passwordA", "ROLE_USER", "홍길동");
-            Member member2 = createMember("userB", "userB@example.com", "passwordB", "ROLE_ADMIN", "김철수");
+            Member member1 = createMember("ADMIN", "", "", "ROLE_ADMIN", "ADMIN");
             em.persist(member1);
-            em.persist(member2);
         }
 
         private Member createMember(String username, String email, String password, String role, String realName) {

@@ -1,16 +1,14 @@
 package mcshop.jjonge_shop.controller;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mcshop.jjonge_shop.domain.Member;
-import mcshop.jjonge_shop.domain.MemberForm;
+import mcshop.jjonge_shop.dto.MemberForm;
 import mcshop.jjonge_shop.dto.MemberDto;
 import mcshop.jjonge_shop.repository.MemberRepository;
 import mcshop.jjonge_shop.service.MemberService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,6 +34,20 @@ public class MemberController {
     public String loginPage() {
         return "/members/login"; // `login.html` 템플릿 반환
     }
+
+//    @PostMapping("/members/login")
+//    public String login(@ModelAttribute MemberForm memberForm, Model model) {
+//        Member member = memberRepository.findByEmail(memberForm.getEmail())
+//                .orElse(null);
+//
+//        if (member == null || !passwordEncoder.matches(memberForm.getPassword(), member.getPassword())) {
+//            model.addAttribute("loginError", "Invalid email or password");
+//            return "/members/login";
+//        }
+//
+//        model.addAttribute("member", member);
+//        return "redirect:/";
+//    }
 
     // POST 요청으로 회원가입 처리하는 메서드
     @PostMapping("/signup")

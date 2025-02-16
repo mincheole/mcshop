@@ -1,7 +1,7 @@
 package mcshop.jjonge_shop.service;
 
 import lombok.RequiredArgsConstructor;
-import mcshop.jjonge_shop.domain.MemberForm;
+import mcshop.jjonge_shop.dto.MemberForm;
 import mcshop.jjonge_shop.domain.Member;
 import mcshop.jjonge_shop.dto.MemberDto;
 import java.util.stream.Collectors;
