@@ -1,10 +1,174 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org" lang="ko">-->
+<!--<head th:replace="fragments/header :: header">-->
+<!--    <title>상품 수정</title>-->
+<!--    <style>-->
+<!--        .fieldError {-->
+<!--            border-color: #bd2130;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<div class="container mt-5">-->
+<!--    &lt;!&ndash; 헤더 영역 &ndash;&gt;-->
+<!--    <div th:replace="~{fragments/bodyHeader}"></div>-->
+
+<!--    &lt;!&ndash; 상품 수정 카드 &ndash;&gt;-->
+<!--    <div class="card border-0 shadow rounded-4">-->
+<!--        <div class="card-header text-center bg-primary text-white rounded-top-4">-->
+<!--            <h3>상품 수정</h3>-->
+<!--        </div>-->
+<!--        <div class="card-body">-->
+<!--            &lt;!&ndash; 상품 수정 폼 &ndash;&gt;-->
+<!--            <form th:object="${form}" method="post">-->
+<!--                &lt;!&ndash; 상품 ID (숨김 필드) &ndash;&gt;-->
+<!--                <input type="hidden" th:field="*{id}" />-->
+
+<!--                &lt;!&ndash; 상품명 &ndash;&gt;-->
+<!--                <div class="mb-3">-->
+<!--                    <label for="name" class="form-label">상품명</label>-->
+<!--                    <input type="text" th:field="*{name}" id="name" class="form-control"-->
+<!--                           placeholder="상품명을 입력하세요"-->
+<!--                           th:classappend="${#fields.hasErrors('name')} ? 'fieldError' : ''">-->
+<!--                    <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger small">상품명 오류</p>-->
+<!--                </div>-->
+
+<!--                &lt;!&ndash; 가격 &ndash;&gt;-->
+<!--                <div class="mb-3">-->
+<!--                    <label for="price" class="form-label">가격</label>-->
+<!--                    <input type="number" th:field="*{price}" id="price" class="form-control"-->
+<!--                           placeholder="가격을 입력하세요"-->
+<!--                           th:classappend="${#fields.hasErrors('price')} ? 'fieldError' : ''">-->
+<!--                    <p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-danger small">가격 오류</p>-->
+<!--                </div>-->
+
+<!--                &lt;!&ndash; 수량 &ndash;&gt;-->
+<!--                <div class="mb-3">-->
+<!--                    <label for="stockQuantity" class="form-label">수량</label>-->
+<!--                    <input type="number" th:field="*{stockQuantity}" id="stockQuantity" class="form-control"-->
+<!--                           placeholder="수량을 입력하세요"-->
+<!--                           th:classappend="${#fields.hasErrors('stockQuantity')} ? 'fieldError' : ''">-->
+<!--                    <p th:if="${#fields.hasErrors('stockQuantity')}" th:errors="*{stockQuantity}" class="text-danger small">수량 오류</p>-->
+<!--                </div>-->
+
+<!--                &lt;!&ndash; 저자 &ndash;&gt;-->
+<!--                <div class="mb-3">-->
+<!--                    <label for="author" class="form-label">저자</label>-->
+<!--                    <input type="text" th:field="*{author}" id="author" class="form-control"-->
+<!--                           placeholder="저자를 입력하세요"-->
+<!--                           th:classappend="${#fields.hasErrors('author')} ? 'fieldError' : ''">-->
+<!--                    <p th:if="${#fields.hasErrors('author')}" th:errors="*{author}" class="text-danger small">저자 오류</p>-->
+<!--                </div>-->
+
+<!--                &lt;!&ndash; ISBN &ndash;&gt;-->
+<!--                <div class="mb-3">-->
+<!--                    <label for="isbn" class="form-label">ISBN</label>-->
+<!--                    <input type="text" th:field="*{isbn}" id="isbn" class="form-control"-->
+<!--                           placeholder="ISBN을 입력하세요"-->
+<!--                           th:classappend="${#fields.hasErrors('isbn')} ? 'fieldError' : ''">-->
+<!--                    <p th:if="${#fields.hasErrors('isbn')}" th:errors="*{isbn}" class="text-danger small">ISBN 오류</p>-->
+<!--                </div>-->
+
+<!--                &lt;!&ndash; 수정 버튼 &ndash;&gt;-->
+<!--                <div class="d-grid">-->
+<!--                    <button type="submit" class="btn btn-primary">상품 수정</button>-->
+<!--                </div>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; 푸터 영역 &ndash;&gt;-->
+<!--    <div th:replace="~{fragments/footer}"></div>-->
+
+<!--</div>&lt;!&ndash; /container &ndash;&gt;-->
+
+<!--</body>-->
+<!--</html>-->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ko">
-<head th:replace="~{fragments/header :: header}">
-    <title>itemList</title>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상품 수정</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .fieldError {
+            border-color: #bd2130;
+        }
+    </style>
 </head>
 <body>
-<div th:replace="~{fragments/bodyHeader}"></div>
-<p th:text="'itemList'">my page</p>
+
+<div class="container mt-5">
+    <!-- 헤더 영역 (예시) -->
+    <header class="py-3 mb-4 border-bottom">
+        <h1 class="text-center">쇼핑몰 사이트</h1>
+    </header>
+
+    <!-- 상품 수정 카드 -->
+    <div class="card border-0 shadow rounded-4">
+        <div class="card-header text-center bg-primary text-white rounded-top-4">
+            <h3>상품 수정</h3>
+        </div>
+        <div class="card-body">
+            <!-- 상품 수정 폼 -->
+            <form>
+                <!-- 상품 ID (숨김 필드) -->
+                <input type="hidden" id="id" />
+
+                <!-- 상품명 -->
+                <div class="mb-3">
+                    <label for="name" class="form-label">상품명</label>
+                    <input type="text" id="name" class="form-control"
+                           placeholder="상품명을 입력하세요">
+                </div>
+
+                <!-- 가격 -->
+                <div class="mb-3">
+                    <label for="price" class="form-label">가격</label>
+                    <input type="number" id="price" class="form-control"
+                           placeholder="가격을 입력하세요">
+                </div>
+
+                <!-- 수량 -->
+                <div class="mb-3">
+                    <label for="stockQuantity" class="form-label">수량</label>
+                    <input type="number" id="stockQuantity" class="form-control"
+                           placeholder="수량을 입력하세요">
+                </div>
+
+                <!-- 저자 -->
+                <div class="mb-3">
+                    <label for="author" class="form-label">저자</label>
+                    <input type="text" id="author" class="form-control"
+                           placeholder="저자를 입력하세요">
+                </div>
+
+                <!-- ISBN -->
+                <div class="mb-3">
+                    <label for="isbn" class="form-label">ISBN</label>
+                    <input type="text" id="isbn" class="form-control"
+                           placeholder="ISBN을 입력하세요">
+                </div>
+
+                <!-- 수정 버튼 -->
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">상품 수정</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 푸터 영역 (예시) -->
+    <footer class="py-3 my-4 border-top">
+        <p class="text-center text-muted">© 2025 쇼핑몰</p>
+    </footer>
+
+</div><!-- /container -->
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
