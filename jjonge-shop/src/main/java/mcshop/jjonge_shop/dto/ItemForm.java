@@ -21,6 +21,5 @@ public class ItemForm {
     @Min(value = 1, message = "수량은 최소 1개 이상이어야 합니다.")
     private Integer stockQuantity;
 
-    private String author;
-    private String isbn;
+    private String description; // 상품 상세 정보 필드 추가
 }

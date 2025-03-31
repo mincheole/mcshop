@@ -1,7 +1,7 @@
 package mcshop.jjonge_shop.service;
 
 import lombok.RequiredArgsConstructor;
-import mcshop.jjonge_shop.domain.item.Book;
+import mcshop.jjonge_shop.domain.Item;
 import mcshop.jjonge_shop.dto.ItemForm;
 import mcshop.jjonge_shop.repository.ItemRepository;
 import org.springframework.stereotype.Service;
@@ -15,13 +15,14 @@ public class ItemService {
 
     @Transactional
     public void saveItem(ItemForm form) {
-        Book book = new Book();
-        book.setName(form.getName());
-        book.setPrice(form.getPrice());
-        book.setStockQuantity(form.getStockQuantity());
-        book.setAuthor(form.getAuthor());
-        book.setIsbn(form.getIsbn());
+        // Item 엔티티 생성
+        Item item = new Item();
+        item.setName(form.getName());
+        item.setPrice(form.getPrice());
+        item.setStockQuantity(form.getStockQuantity());
+        item.setDescription(form.getDescription()); // 추가: 상세 정보 필드
 
-        itemRepository.save(book);
+        // 저장
+        itemRepository.save(item);
     }
 }

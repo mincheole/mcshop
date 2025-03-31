@@ -3,7 +3,6 @@ package mcshop.jjonge_shop.domain;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import mcshop.jjonge_shop.domain.item.Item;
 
 import java.util.ArrayList;
 import java.util.List;
