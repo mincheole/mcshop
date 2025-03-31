@@ -23,11 +23,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MemberController {
 
-    @Autowired
     private final MemberService memberService;
-    @Autowired
     private final MemberRepository memberRepository;
-    @Autowired
     private final PasswordEncoder passwordEncoder;
 
     // GET 요청으로 회원가입 폼을 보여주는 메서드
