@@ -8,6 +8,8 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -32,6 +34,10 @@ public class Member {
     private String realName; // 사용자의 실제 이름 (선택적)
 
     private LocalDateTime lastLoginTime; // 마지막 로그인 시각
+
+    // 주문 연관관계 추가
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Order> orders = new ArrayList<>();
 
     // 회원가입 사용자 생성자
     public Member(String username, String email, String password, String role, String realName) {

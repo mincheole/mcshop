@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head th:replace="~{fragments/header :: header}">
+    <title>상품 수정</title>
+    <style>
+        .fieldError {
+            border-color: #bd2130;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <!-- 헤더 영역 -->
+    <div th:replace="~{fragments/bodyHeader}"></div>
+
+    <!-- 상품 수정 카드 -->
+    <div class="card border-0 shadow rounded-4">
+        <div class="card-header bg-primary text-white text-center">
+            <h2>상품 수정</h2>
+        </div>
+        <div class="card-body">
+            <form th:action="@{'/items/' + ${itemId} + '/edit'}" th:object="${itemForm}" method="post">
+
+                <!-- 상품명 입력 -->
+                <div class="mb-3">
+                    <label for="name" class="form-label">상품명</label>
+                    <input type="text" id="name" th:field="*{name}" class="form-control" placeholder="상품명을 입력하세요">
+                    <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">상품명 오류</div>
+                </div>
+
+                <!-- 가격 입력 -->
+                <div class="mb-3">
+                    <label for="price" class="form-label">가격</label>
+                    <input type="number" id="price" th:field="*{price}" class="form-control" placeholder="가격을 입력하세요" required step="1000">
+                    <div class="text-danger" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">가격 오류</div>
+                </div>
+
+                <!-- 재고 수량 입력 -->
+                <div class="mb-3">
+                    <label for="stockQuantity" class="form-label">재고 수량</label>
+                    <input type="number" id="stockQuantity" th:field="*{stockQuantity}" class="form-control" placeholder="재고 수량을 입력하세요">
+                    <div class="text-danger" th:if="${#fields.hasErrors('stockQuantity')}" th:errors="*{stockQuantity}">재고 오류</div>
+                </div>
+
+                <!-- 상품 설명 입력 -->
+                <div class="mb-3">
+                    <label for="description" class="form-label">상품 설명</label>
+                    <textarea id="description" th:field="*{description}" class="form-control" rows="4" placeholder="상품 설명을 입력하세요"></textarea>
+                    <div class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">설명 오류</div>
+                </div>
+
+                <!-- 제출 버튼 -->
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-primary px-4 py-2">수정 완료</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

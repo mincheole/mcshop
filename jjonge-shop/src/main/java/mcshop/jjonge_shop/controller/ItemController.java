@@ -1,76 +1,8 @@
-//package mcshop.jjonge_shop.controller;
-//
-//import jakarta.validation.Valid;
-//import lombok.RequiredArgsConstructor;
-//import mcshop.jjonge_shop.domain.Item;
-//import mcshop.jjonge_shop.dto.ItemDto;
-//import mcshop.jjonge_shop.dto.ItemForm;
-//import mcshop.jjonge_shop.repository.ItemRepository;
-//import mcshop.jjonge_shop.service.ItemService;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Controller;
-//import org.springframework.ui.Model;
-//import org.springframework.validation.BindingResult;
-//import org.springframework.web.bind.annotation.GetMapping;
-//import org.springframework.web.bind.annotation.ModelAttribute;
-//import org.springframework.web.bind.annotation.PostMapping;
-//
-//import java.util.List;
-//import java.util.stream.Collectors;
-//
-//@Controller
-//@RequiredArgsConstructor
-//public class ItemController {
-//
-//    @Autowired
-//    private final ItemService itemService;
-//    @Autowired
-//    private final ItemRepository itemRepository;
-//
-//    public List<ItemDto> findAllItems() {
-//        // 데이터베이스에서 모든 상품을 조회
-//        List<Item> items = itemRepository.findAll();
-//
-//        // 조회된 Item 엔티티 리스트를 ItemDto 리스트로 변환하여 반환
-//        return items.stream()
-//                .map(item -> new ItemDto(item))  // ✅ 각 Item 엔티티를 ItemDto로 변환
-//                .collect(Collectors.toList());   // 변환된 ItemDto 리스트를 수집하여 반환
-//    }
-//
-//    // 상품 등록 폼 페이지
-//    @GetMapping("/items/new")
-//    public String showItemForm(Model model) {
-//        model.addAttribute("itemForm", new ItemForm());
-//        return "items/createItemForm";  // createItemForm.html 페이지로 이동
-//    }
-//
-//    // 상품 등록 처리
-//    @PostMapping("/items/new")
-//    public String registerItem(@Valid @ModelAttribute("itemForm") ItemForm form, BindingResult bindingResult) {
-//        if (bindingResult.hasErrors()) {
-//            return "items/createItemForm";  // 오류 발생 시 다시 입력 폼으로 이동
-//        }
-//
-//        itemService.saveItem(form);  // 서비스 계층을 통해 저장
-//        return "redirect:/";  // 등록 후 상품 목록 페이지로 이동
-//    }
-//
-//    // 상품 목록 조회하여 출력
-//    @GetMapping("/items")
-//    public String listItems(Model model) {
-//        List<ItemDto> items = itemService.findAllItems()
-//                .stream()
-//                .map(ItemDto::new)
-//                .collect(Collectors.toList());
-//
-//        model.addAttribute("items", items);
-//        return "items/itemList";
-//    }
-//}
 package mcshop.jjonge_shop.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import mcshop.jjonge_shop.domain.Item;
 import mcshop.jjonge_shop.dto.ItemDto;
 import mcshop.jjonge_shop.dto.ItemForm;
 import mcshop.jjonge_shop.service.ItemService;
@@ -79,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
@@ -138,4 +71,33 @@ public class ItemController {
         model.addAttribute("items", items);
         return "items/itemList";  // 상품 목록 화면으로 이동
     }
+
+    @GetMapping("/items/{itemId}/edit")
+    public String showEditForm(@PathVariable Long itemId, Model model) {
+        ItemDto itemDto = itemService.getItem(itemId);
+        model.addAttribute("itemForm", itemDto);
+        return "items/editItemForm";
+    }
+
+
+    @PostMapping("/items/{itemId}/edit")
+    public String editItem(@PathVariable Long itemId,
+                           @Valid @ModelAttribute("itemForm") ItemForm form,
+                           BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "items/editItemForm";
+        }
+
+        itemService.updateItem(itemId, form);
+        return "redirect:/items";
+    }
+
+
+/*    @GetMapping("/items/{id}/edit")
+    public String editItemForm(@PathVariable("id") Long id, Model model) {
+        Item item = itemService.findOne(id);
+        model.addAttribute("item", item);
+        return "items/editItemForm"; //  Thymeleaf 템플릿 경로
+    }*/
+
 }

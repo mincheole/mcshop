@@ -3,6 +3,7 @@ package mcshop.jjonge_shop;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
+import mcshop.jjonge_shop.domain.Item;
 import mcshop.jjonge_shop.domain.Member;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,8 +31,25 @@ public class InitDb {
         @Transactional
         public void dbInit1() {
             Member member1 = createMember("ADMIN", "admin@example.com", "adminPassword", "ROLE_ADMIN", "ADMIN");
+
+            Item item1 = createItem("초코 아이스크림", 2500, 100);
+            Item item2 = createItem("바닐라 쉐이크", 3200, 50);
+            Item item3 = createItem("딸기 케이크", 4500, 30);
+
+            em.persist(item1);
+            em.persist(item2);
+            em.persist(item3);
             em.persist(member1);
         }
+
+        private Item createItem(String a, int n, int m) {
+            Item item = new Item();
+            item.setName(a);
+            item.setPrice(n);
+            item.setStockQuantity(m);
+            return item;
+        }
+
 
         private Member createMember(String username, String email, String password, String role, String realName) {
             Member member = new Member();
