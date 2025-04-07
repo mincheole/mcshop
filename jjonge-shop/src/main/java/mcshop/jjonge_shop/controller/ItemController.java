@@ -18,86 +18,83 @@ import java.util.List;
 
 /**
  * 상품 관련 요청을 처리하는 컨트롤러
- * 상품 등록, 조회 등의 기능을 담당함
+ * 상품 등록, 수정, 조회 등의 기능을 담당
  */
 @Controller
 @RequiredArgsConstructor  // 생성자 주입을 위한 lombok 어노테이션
 public class ItemController {
 
-    // 생성자 주입으로 의존성 주입 (@RequiredArgsConstructor와 final 키워드를 통해 자동 주입됨)
+    // 서비스 계층에 대한 의존성 주입
     private final ItemService itemService;
 
     /**
-     * 상품 등록 페이지를 보여주는 메서드
-     * @param model View에 전달할 데이터를 담는 객체
-     * @return 상품 등록 폼 화면 경로
+     * [GET] 상품 등록 페이지 출력
+     * 빈 폼 객체를 View에 전달하여 폼 렌더링 준비
      */
     @GetMapping("/items/new")
     public String showItemForm(Model model) {
-        // 빈 상품 폼 객체를 모델에 추가하여 View에 전달
-        model.addAttribute("itemForm", new ItemForm());
-        return "items/createItemForm";  // 상품 등록 폼 화면으로 이동
+        model.addAttribute("itemForm", new ItemForm()); // 신규 등록용 빈 DTO 객체 추가
+        return "items/createItemForm"; // 상품 등록 폼 HTML로 이동
     }
 
     /**
-     * 상품 등록 요청을 처리하는 메서드
-     * @param form 사용자가 입력한 상품 정보
-     * @param bindingResult 입력값 검증 결과
-     * @return 성공 시 홈 화면으로 리다이렉트, 실패 시 등록 폼으로 이동
+     * [POST] 상품 등록 처리
+     * 사용자 입력값을 검증 후, 서비스 계층에 저장 요청
      */
     @PostMapping("/items/new")
-    public String registerItem(@Valid @ModelAttribute("itemForm") ItemForm form, BindingResult bindingResult) {
-        // 입력값 검증 오류가 있는 경우 다시 입력 폼으로 이동
+    public String registerItem(
+            @Valid @ModelAttribute("itemForm") ItemForm form,
+            BindingResult bindingResult
+    ) {
+        // 입력값 검증 실패 시 등록 폼으로 되돌아감
         if (bindingResult.hasErrors()) {
             return "items/createItemForm";
         }
 
-        // 상품 정보 저장 (서비스 계층을 통해 처리)
+        // 입력값 검증 성공 → 서비스 계층을 통해 DB 저장 처리
         itemService.saveItem(form);
-        return "redirect:/";  // 등록 완료 후 홈 화면으로 리다이렉트
+        return "redirect:/"; // 등록 후 홈 화면으로 리다이렉트
     }
 
     /**
-     * 모든 상품 목록을 조회하여 화면에 표시하는 메서드
-     * @param model View에 전달할 데이터를 담는 객체
-     * @return 상품 목록 화면 경로
+     * [GET] 전체 상품 목록 조회
+     * 서비스 계층에서 상품 리스트를 DTO로 받아 View에 전달
      */
     @GetMapping("/items")
     public String listItems(Model model) {
-        // 서비스 계층을 통해 모든 상품 정보를 DTO 형태로 조회
-        List<ItemDto> items = itemService.findAllItems();
-
-        // 조회한 상품 목록을 모델에 추가하여 View에 전달
-        model.addAttribute("items", items);
-        return "items/itemList";  // 상품 목록 화면으로 이동
+        List<ItemDto> items = itemService.findAllItems(); // 전체 상품 조회
+        model.addAttribute("items", items); // 모델에 상품 리스트 저장
+        return "items/itemList"; // 상품 목록 View로 이동
     }
 
+    /**
+     * [GET] 상품 수정 폼 조회
+     * 수정 대상 상품을 식별하여 View에 데이터 출력
+     */
     @GetMapping("/items/{itemId}/edit")
     public String showEditForm(@PathVariable Long itemId, Model model) {
-        ItemDto itemDto = itemService.getItem(itemId);
-        model.addAttribute("itemForm", itemDto);
-        return "items/editItemForm";
+        ItemDto itemDto = itemService.getItem(itemId); // 대상 상품 조회 (DTO 형태)
+        model.addAttribute("itemForm", itemDto); // 수정 폼에 전달할 DTO 저장
+        return "items/editItemForm"; // 수정 폼 View로 이동
     }
 
-
+    /**
+     * [POST] 상품 수정 처리
+     * 사용자의 수정 내용을 받아 서비스 계층에서 DB 업데이트 수행
+     */
     @PostMapping("/items/{itemId}/edit")
-    public String editItem(@PathVariable Long itemId,
-                           @Valid @ModelAttribute("itemForm") ItemForm form,
-                           BindingResult bindingResult) {
+    public String updateItem(
+            @PathVariable Long itemId,
+            @Valid @ModelAttribute("itemForm") ItemForm form,
+            BindingResult bindingResult
+    ) {
+        // 입력값 검증 실패 시 수정 폼으로 복귀
         if (bindingResult.hasErrors()) {
             return "items/editItemForm";
         }
 
+        // 검증 성공 시 상품 수정 처리
         itemService.updateItem(itemId, form);
-        return "redirect:/items";
+        return "redirect:/items"; // 수정 완료 후 상품 목록으로 이동
     }
-
-
-/*    @GetMapping("/items/{id}/edit")
-    public String editItemForm(@PathVariable("id") Long id, Model model) {
-        Item item = itemService.findOne(id);
-        model.addAttribute("item", item);
-        return "items/editItemForm"; //  Thymeleaf 템플릿 경로
-    }*/
-
 }
