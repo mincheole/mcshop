@@ -17,46 +17,58 @@ public class ItemService {
 
     private final ItemRepository itemRepository;
 
+    /**
+     * 상품 저장
+     * - ItemForm으로부터 Item Entity 생성 후 저장
+     */
     @Transactional
     public void saveItem(ItemForm form) {
-        // Item 엔티티 생성
         Item item = new Item();
         item.setName(form.getName());
         item.setPrice(form.getPrice());
         item.setStockQuantity(form.getStockQuantity());
-        item.setDescription(form.getDescription()); // 추가: 상세 정보 필드
+        item.setDescription(form.getDescription());
 
-        // 저장
         itemRepository.save(item);
     }
 
     /**
-     * 모든 상품 목록을 조회하여 ItemDto 리스트로 반환하는 메서드
+     * 모든 상품 조회 (DTO 변환 포함)
      */
     public List<ItemDto> findAllItems() {
-        List<Item> items = itemRepository.findAll(); // 모든 상품 조회
-        return items.stream()
-                .map(ItemDto::new)  // Item 엔티티를 ItemDto 로 변환
+        return itemRepository.findAll().stream()
+                .map(ItemDto::new)
                 .collect(Collectors.toList());
     }
 
+    /**
+     * 모든 상품 조회 (Entity 그대로 반환)
+     */
     public List<Item> findItems() {
         return itemRepository.findAll();
     }
 
+    /**
+     * 단일 상품 조회 (Entity)
+     */
     public Item findOne(Long id) {
         return itemRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 상품이 존재하지 않습니다. id=" + id));
+                .orElseThrow(() -> new IllegalArgumentException("해당 상품이 존재하지 않습니다. ID=" + id));
     }
 
-    // 단일 상품 조회
+    /**
+     * 단일 상품 조회 (DTO)
+     */
     public ItemDto getItem(Long itemId) {
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 상품이 존재하지 않습니다. ID=" + itemId));
         return new ItemDto(item);
     }
 
-    // 상품 수정
+    /**
+     * 상품 수정
+     * - Dirty Checking 적용: 트랜잭션 종료 시 자동 감지됨
+     */
     @Transactional
     public void updateItem(Long itemId, ItemForm form) {
         Item item = itemRepository.findById(itemId)
@@ -65,15 +77,6 @@ public class ItemService {
         item.setName(form.getName());
         item.setPrice(form.getPrice());
         item.setStockQuantity(form.getStockQuantity());
+        item.setDescription(form.getDescription());
     }
-
-//    public ItemDto findOne(Long itemId) {
-//        // itemId로 Item 엔티티를 데이터베이스에서 조회
-//        Item item = itemRepository.findById(itemId)
-//                .orElseThrow(() -> new IllegalArgumentException("해당 상품이 존재하지 않습니다. ID: " + itemId));
-//
-//        // 조회된 Item 엔티티를 ItemDto로 변환하여 반환
-//        return new ItemDto(item);
-//    }
-
 }
