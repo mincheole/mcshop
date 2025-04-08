@@ -42,21 +42,6 @@ public class ItemService {
     }
 
     /**
-     * 모든 상품 조회 (Entity 그대로 반환)
-     */
-    public List<Item> findItems() {
-        return itemRepository.findAll();
-    }
-
-    /**
-     * 단일 상품 조회 (Entity)
-     */
-    public Item findOne(Long id) {
-        return itemRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 상품이 존재하지 않습니다. ID=" + id));
-    }
-
-    /**
      * 단일 상품 조회 (DTO)
      */
     public ItemDto getItem(Long itemId) {

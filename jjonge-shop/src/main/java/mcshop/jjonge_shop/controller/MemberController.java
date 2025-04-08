@@ -7,7 +7,6 @@ import mcshop.jjonge_shop.dto.MemberForm;
 import mcshop.jjonge_shop.dto.MemberDto;
 import mcshop.jjonge_shop.repository.MemberRepository;
 import mcshop.jjonge_shop.service.MemberService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -98,7 +97,7 @@ public class MemberController {
     @GetMapping("/members")
     public String list(Model model) {
         // MemberService의 findMembers() 메서드를 호출하여 회원 리스트를 가져옴
-        List<MemberDto> members = memberService.getfindMembers();
+        List<MemberDto> members = memberService.findMemberDtos();
         // 모델에 회원 리스트 추가
         model.addAttribute("members", members);
         return "members/memberList";  // 회원 목록 뷰 이름

@@ -51,4 +51,9 @@ public class MemberDto {
             this.lastLoginTime = member.getLastLoginTime();
         }
     }
+
+    public static MemberDto from(Member member) {
+        return new MemberDto(member);
+    }
 }
+

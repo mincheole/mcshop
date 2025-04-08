@@ -1,6 +1,5 @@
 package mcshop.jjonge_shop.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -9,10 +8,14 @@ import lombok.Setter;
 
 import static jakarta.persistence.FetchType.LAZY;
 
+/**
+ * 주문 상품 엔티티
+ * 주문과 상품의 다대다 관계를 해소하는 엔티티
+ */
 @Entity
-@Table(name = "order_item") // 종종 DB에 예약어 존재
+@Table(name = "order_item")
 @Getter @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)    //유지보수의 편의를 위해, 다른 필드에서 사용 제약
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // 기본 생성자 접근 제한
 public class OrderItem {
 
     @Id @GeneratedValue
@@ -21,37 +24,41 @@ public class OrderItem {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "item_id")
-    private Item item;    //주문  상품
+    private Item item; // 주문 상품
 
-    @JsonIgnore
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "order_id")
-    private Order order;        //주문
+    private Order order; // 주문
 
-    private int orderPrice; //주문 가격
-    private int count;      //주문 수량
+    private int orderPrice; // 주문 당시 가격
+    private int count; // 주문 수량
 
-//    protected OrderItem() {}    //유지보수의 편의를 위해, 다른 필드에서 사용 제약
-//
-//    //==생성 메서드==//
-//    public static OrderItem createOrderItem(Item item, int orderPrice, int count) {
-//        OrderItem orderItem = new OrderItem();
-//        orderItem.setItem(item);
-//        orderItem.setOrderPrice(orderPrice);
-//        orderItem.setCount(count);
-//
-//        item.removeStock(count);
-//        return orderItem;
-//    }
+    /**
+     * 주문상품 생성 메서드
+     * 상품 정보와 주문 가격, 수량을 받아 주문상품 엔티티 생성
+     * 상품의 재고를 감소시킴
+     */
+    public static OrderItem createOrderItem(Item item, int orderPrice, int count) {
+        OrderItem orderItem = new OrderItem();
+        orderItem.setItem(item);
+        orderItem.setOrderPrice(orderPrice);
+        orderItem.setCount(count);
 
-    //==비즈니스 로직==//
+        item.removeStock(count); // 재고 감소
+        return orderItem;
+    }
+
+    /**
+     * 주문 취소 시 호출되는 메서드
+     * 취소된 주문의 상품 수량만큼 재고를 증가시킴
+     */
     public void cancel() {
         getItem().addStock(count);
     }
 
-    //==조회 로직==//
     /**
      * 주문상품 전체 가격 조회
+     * 주문 가격과 수량을 곱해서 반환
      */
     public int getTotalPrice() {
         return getOrderPrice() * getCount();
