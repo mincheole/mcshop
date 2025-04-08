@@ -2,7 +2,7 @@ package mcshop.jjonge_shop.service;
 
 import lombok.RequiredArgsConstructor;
 import mcshop.jjonge_shop.domain.*;
-import mcshop.jjonge_shop.dto.OrderDto;
+        import mcshop.jjonge_shop.dto.OrderDto;
 import mcshop.jjonge_shop.dto.OrderSearch;
 import mcshop.jjonge_shop.repository.ItemRepository;
 import mcshop.jjonge_shop.repository.MemberRepository;
@@ -69,15 +69,6 @@ public class OrderService {
                 .map(OrderDto::from)
                 .collect(Collectors.toList());
     }
-
-//    /**
-//     * 검색 조건에 따라 주문 목록 조회
-//     */
-//    public List<OrderDto> findOrders(OrderSearch orderSearch) {
-//        return orderRepository.findAllBySearch(orderSearch).stream()
-//                .map(OrderDto::from)
-//                .collect(Collectors.toList());
-//    }
 
     public List<OrderDto> findOrders(OrderSearch orderSearch) {
         List<Order> orders = orderRepository.findAllBySearch(

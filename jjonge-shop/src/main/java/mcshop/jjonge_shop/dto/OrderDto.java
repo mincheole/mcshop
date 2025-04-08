@@ -1,5 +1,6 @@
 package mcshop.jjonge_shop.dto;
 
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 import lombok.Setter;
 import mcshop.jjonge_shop.domain.Order;
@@ -8,6 +9,7 @@ import mcshop.jjonge_shop.domain.OrderStatus;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter @Setter
 public class OrderDto {
@@ -19,10 +21,10 @@ public class OrderDto {
     private int count;                   // 수량
     private OrderStatus status;          // 주문 상태 (ORDER, CANCEL 등)
     private LocalDateTime orderDate;     // 주문 날짜
+    private List<OrderItemDto> orderItems;
 
     /**
      * Order 엔티티로부터 DTO를 생성하는 생성자
-     * 주의: 현재는 첫 번째 주문 상품만 반영함
      */
     public OrderDto(Order order) {
         this.id = order.getId();
@@ -33,15 +35,30 @@ public class OrderDto {
             OrderItem firstItem = orderItems.get(0);
             this.itemName = firstItem.getItem().getName();
             this.orderPrice = firstItem.getOrderPrice();
+
             this.count = firstItem.getCount();
         } else {
             this.itemName = "(상품 없음)";
             this.orderPrice = 0;
             this.count = 0;
         }
-
+        this.orderItems = order.getOrderItems()
+                .stream()
+                .map(OrderItemDto::new)
+                .collect(Collectors.toList());
         this.status = order.getStatus();
         this.orderDate = order.getOrderDate();
+    }
+
+    /**
+     * QueryDSL DTO 프로젝션용 생성자
+     */
+    @QueryProjection
+    public OrderDto(Long id, String memberName, LocalDateTime orderDate, OrderStatus status) {
+        this.id = id;
+        this.memberName = memberName;
+        this.orderDate = orderDate;
+        this.status = status;
     }
 
     /**
@@ -50,5 +67,10 @@ public class OrderDto {
     public static OrderDto from(Order order) {
         return new OrderDto(order);
     }
-}
 
+    public int getTotalPrice() {
+        return orderItems.stream()
+                .mapToInt(item -> item.getOrderPrice() * item.getCount())
+                .sum();
+    }
+}

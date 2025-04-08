@@ -85,62 +85,6 @@ public class SecurityConfig {
                         .clearAuthentication(true));
 
         return http.build();
-//
-//        // CSRF 보호 기능 비활성화
-//        http
-//                .csrf((csrf) -> csrf.disable());
-//
-//        // 사용자 정의 로그인 페이지 설정
-//        http
-//                .formLogin((login) -> login
-//                        .loginPage("/login")  // 로그인 페이지 경로 설정
-//                        .permitAll());        // 로그인 페이지는 인증 없이 접근 가능하도록 설정
-//
-//        // HTTP Basic 인증 비활성화
-//        http
-//                .httpBasic((basic) -> basic.disable());
-//
-//        // OAuth2 로그인 설정
-//        http
-//                .oauth2Login((oauth2) -> oauth2
-//                // OAuth2 로그인의 로그인 페이지 URL을 지정
-//                .loginPage("/login")
-//                // OAuth2 클라이언트 등록 정보를 저장하는 레포지토리 설정
-//                .clientRegistrationRepository(customClientRegistrationRepo.clientRegistrationRepository())
-//                // OAuth2 로그인 성공 후 사용자 정보를 가져올 때의 설정
-//                .userInfoEndpoint((userInfoEndpointConfig) ->
-//                        // 사용자 정보를 처리할 커스텀 서비스 설정
-//                        userInfoEndpointConfig.userService(customOAuth2UserService))
-//                // 로그인 성공 시 실행될 핸들러 추가
-//                .successHandler((request, response, authentication) -> {
-//                    response.setCharacterEncoding("UTF-8");
-//                    response.sendRedirect("/");  // 로그인 성공 후 리다이렉트할 페이지
-//                }));
-//
-//        // URL별 인증 및 접근 권한 설정
-//        http
-//                .authorizeHttpRequests((auth) -> auth
-//                        // 웰컴 페이지와 로그인 페이지는 인증 없이 접근 가능하도록 허용
-//                        .requestMatchers("/", "/oauth2/**", "/members/login", "/members/new").permitAll()
-//                        // 로그인 후 사용자는 ROLE_USER로 기본 권한을 부여받고 접근 가능
-//                        .requestMatchers("/**").hasRole("USER")
-//                        // 그 외 모든 요청은 인증 필요
-//                        .anyRequest().authenticated());
-//
-//        // 인증되지 않은 사용자가 접근하려는 페이지가 있을 경우 로그인 페이지로 리다이렉트
-//        http.exceptionHandling((exception) -> exception
-//                .authenticationEntryPoint((request, response, authException) -> {
-//                    response.sendRedirect("/members/login"); // 로그인 페이지로 리다이렉트 (에러 파라미터 추가)
-//                }));
-//
-//        // 로그아웃 설정
-//        http.logout((logout) -> logout
-//                .logoutUrl("/logout")              // 로그아웃 URL 설정
-//                .logoutSuccessUrl("/")             // 로그아웃 성공 후 리디렉션할 페이지 (홈 화면 등)
-//                .invalidateHttpSession(true)       // 세션 무효화
-//                .clearAuthentication(true));       // 인증 정보 제거
-
-        // SecurityFilterChain 객체를 빌드하여 반환
     }
 
     // 인증 성공 핸들러 빈 등록

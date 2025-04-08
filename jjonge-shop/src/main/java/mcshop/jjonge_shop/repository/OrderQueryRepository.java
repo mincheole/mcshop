@@ -48,7 +48,7 @@
 //     */
 //    private BooleanExpression nameLike(String memberName) {
 //        return memberName != null && !memberName.isBlank()
-//                ? QOrder.order.member.name.contains(memberName)
+//                ? QOrder.order.member.realName.contains(memberName)
 //                : null;
 //    }
 //}

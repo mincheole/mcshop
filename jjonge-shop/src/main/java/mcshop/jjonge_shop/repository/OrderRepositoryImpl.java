@@ -3,10 +3,10 @@
 //import com.querydsl.core.types.dsl.BooleanExpression;
 //import com.querydsl.jpa.impl.JPAQueryFactory;
 //import lombok.RequiredArgsConstructor;
-//import mcshop.jjonge_shop.domain.Order;
 //import mcshop.jjonge_shop.domain.OrderStatus;
 //import mcshop.jjonge_shop.domain.QMember;
 //import mcshop.jjonge_shop.domain.QOrder;
+//import mcshop.jjonge_shop.dto.OrderDto;
 //import mcshop.jjonge_shop.dto.OrderSearch;
 //import org.springframework.stereotype.Repository;
 //
@@ -27,12 +27,18 @@
 //     * 검색 조건을 기반으로 주문 리스트 조회
 //     */
 //    @Override
-//    public List<Order> search(OrderSearch orderSearch) {
+//    public List<OrderDto> customSearch(OrderSearch orderSearch) {
 //        QOrder order = QOrder.order;
 //        QMember member = QMember.member;
 //
 //        return queryFactory
-//                .selectFrom(order)
+//                .select(new QOrderDto(
+//                        order.id,
+//                        member.realName,
+//                        order.orderDate,
+//                        order.status
+//                ))
+//                .from(order)
 //                .join(order.member, member)               // 회원과 조인
 //                .where(
 //                        statusEq(orderSearch.getOrderStatus()),    // 주문 상태 필터링
@@ -54,7 +60,7 @@
 //     */
 //    private BooleanExpression nameLike(String memberName) {
 //        return memberName != null && !memberName.isBlank()
-//                ? QOrder.order.member.name.contains(memberName)
+//                ? QOrder.order.member.realName.contains(memberName)
 //                : null;
 //    }
 //}

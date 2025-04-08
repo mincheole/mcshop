@@ -1,11 +1,76 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <title>orderList</title>
+<head th:replace="~{fragments/header :: header}">
+    <title>주문 목록</title>
 </head>
 <body>
 <div th:replace="~{fragments/bodyHeader}"></div>
-<p th:text="'orderList'">my page</p>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>주문 목록</h2>
+    </div>
+
+    <!-- 성공 메시지 표시 -->
+    <div class="alert alert-success" th:if="${message != null}" th:text="${message}"></div>
+    <!-- 오류 메시지 표시 -->
+    <div class="alert alert-danger" th:if="${errorMessage != null}" th:text="${errorMessage}"></div>
+
+    <!-- 검색 폼 -->
+    <div class="row mb-4">
+        <div class="col">
+            <form th:object="${orderSearch}" class="form-inline">
+                <div class="form-group mb-2 me-2">
+                    <input type="text" th:field="*{memberName}" class="form-control" placeholder="회원명">
+                </div>
+                <div class="form-group mb-2 me-2">
+                    <select th:field="*{orderStatus}" class="form-control">
+                        <option value="">주문상태</option>
+                        <option th:each="status : ${T(mcshop.jjonge_shop.domain.OrderStatus).values()}"
+                                th:value="${status}"
+                                th:text="${status == T(mcshop.jjonge_shop.domain.OrderStatus).ORDER ? '주문' : '취소'}">
+                        </option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary mb-2">검색</button>
+            </form>
+        </div>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>주문번호</th>
+            <th>회원명</th>
+            <th>상품명</th>
+            <th>주문가격</th>
+            <th>주문수량</th>
+            <th>상태</th>
+            <th>일시</th>
+            <th>관리</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order : ${orders}">
+            <td th:text="${order.id}"></td>
+            <span th:text="${order.memberName}"></span>
+            <td>
+                <span th:each="item, iterStat : ${order.orderItems}" th:text="${item.itemName} + (${iterStat.last} ? '' : ', ')"></span>
+            </td>
+            <td th:text="${#numbers.formatInteger(order.totalPrice, 0, 'COMMA')}"></td>
+            <td>
+                <span th:each="item, iterStat : ${order.orderItems}" th:text="${item.count} + '개' + (${iterStat.last} ? '' : ', ')"></span>
+            </td>
+            <td th:text="${order.status == T(mcshop.jjonge_shop.domain.OrderStatus).ORDER ? '주문' : '취소'}"></td>
+            <td th:text="${#temporals.format(order.orderDate, 'yyyy-MM-dd HH:mm')}"></td>
+            <td>
+                <form th:if="${order.status == T(mcshop.jjonge_shop.domain.OrderStatus).ORDER}"
+                      th:action="@{/orders/{id}/cancel(id=${order.id})}" method="post">
+                    <button type="submit" class="btn btn-danger btn-sm">주문취소</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
