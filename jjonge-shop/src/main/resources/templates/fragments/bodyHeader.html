@@ -39,7 +39,7 @@
 <!--        만약 로그아웃 버튼이 인증된 사용자에게만 보여져야 한다면, @PreAuthorize나 @Secured 어노테이션을 통해 액세스를 제한할 수 있습니다. 예를 들어, 로그아웃 버튼이 로그인된 사용자에게만 보이도록 하려면:-->
         <li sec:authorize="isAuthenticated()">
             <!-- 로그아웃 버튼을 누르면 /logout.html로 이동 -->
-            <a href="/logout.html" class="btn btn-link">Logout</a>
+            <a href="/logout.html" class="btn btn-primary">Logout</a>
         </li>
     </ul>
 </div>

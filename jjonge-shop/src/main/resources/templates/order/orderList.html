@@ -39,30 +39,32 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <th>주문번호</th>
-            <th>회원명</th>
-            <th>상품명</th>
-            <th>주문가격</th>
-            <th>주문수량</th>
-            <th>상태</th>
-            <th>일시</th>
-            <th>관리</th>
+            <th class="text-center">주문번호</th>
+            <th class="text-center">회원명</th>
+            <th class="text-center">상품명</th>
+            <th class="text-center">주문가격</th>
+            <th class="text-center">주문수량</th>
+            <th class="text-center">상태</th>
+            <th class="text-center">일시</th>
+            <th class="text-center">관리</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="order : ${orders}">
-            <td th:text="${order.id}"></td>
+            <td class="text-center" th:text="${order.id}"></td>
+            <td class="text-center">
             <span th:text="${order.memberName}"></span>
-            <td>
+            </td>
+            <td class="text-center">
                 <span th:each="item, iterStat : ${order.orderItems}" th:text="${item.itemName} + (${iterStat.last} ? '' : ', ')"></span>
             </td>
-            <td th:text="${#numbers.formatInteger(order.totalPrice, 0, 'COMMA')}"></td>
-            <td>
+            <td class="text-center" th:text="${#numbers.formatInteger(order.totalPrice, 0, 'COMMA')}"></td>
+            <td class="text-center">
                 <span th:each="item, iterStat : ${order.orderItems}" th:text="${item.count} + '개' + (${iterStat.last} ? '' : ', ')"></span>
             </td>
-            <td th:text="${order.status == T(mcshop.jjonge_shop.domain.OrderStatus).ORDER ? '주문' : '취소'}"></td>
-            <td th:text="${#temporals.format(order.orderDate, 'yyyy-MM-dd HH:mm')}"></td>
-            <td>
+            <td class="text-center" th:text="${order.status == T(mcshop.jjonge_shop.domain.OrderStatus).ORDER ? '주문' : '취소'}"></td>
+            <td class="text-center" th:text="${#temporals.format(order.orderDate, 'yyyy-MM-dd HH:mm')}"></td>
+            <td class="text-center" >
                 <form th:if="${order.status == T(mcshop.jjonge_shop.domain.OrderStatus).ORDER}"
                       th:action="@{/orders/{id}/cancel(id=${order.id})}" method="post">
                     <button type="submit" class="btn btn-danger btn-sm">주문취소</button>
